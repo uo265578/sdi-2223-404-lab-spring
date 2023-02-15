@@ -3,28 +3,31 @@ package com.uniovi.notaneitor.controllers;
 import com.uniovi.notaneitor.entities.Professor;
 import com.uniovi.notaneitor.services.ProfessorsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 public class ProfessorsController {
 
     @Autowired //Inyectar el servicio
     private ProfessorsService professorsService;
 
     @RequestMapping("/professor/list")
-    public String getList() {
-        return professorsService.getProfessors().toString();
+    public String getList(Model model) {
+        model.addAttribute("professorList", professorsService.getProfessors());
+        return "professor/list";
     }
 
     @RequestMapping(value = "/professor/add", method = RequestMethod.POST)
     public String setProfessor(@ModelAttribute Professor professor) {
         professorsService.addProfessor(professor);
-        return professor.toString();
+        return "redirect:/professor/list";
     }
 
     @RequestMapping(value = "/professor/add")
     public String getProfessor() {
-        return "Profesor añadido";
+        return "professor/add";
     }
 
 
@@ -57,7 +60,7 @@ public class ProfessorsController {
     @RequestMapping("/professor/delete/{id}")
     public String deleteProfessor(@PathVariable Long id) {
         professorsService.deleteProfessor(id);
-        return "deleted ";
+        return "redirect:/professor/list";
     }
 
 
