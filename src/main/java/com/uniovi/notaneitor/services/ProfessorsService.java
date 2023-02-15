@@ -1,6 +1,8 @@
 package com.uniovi.notaneitor.services;
 
 import com.uniovi.notaneitor.entities.Professor;
+import com.uniovi.notaneitor.repositories.ProfessorsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -10,37 +12,33 @@ import java.util.List;
 @Service
 public class ProfessorsService {
 
-    public ArrayList<Professor> professorsList = new ArrayList<>();
-
-    @PostConstruct
-    public void init() {
-        professorsList.add(new Professor(1L,"71741018", "Santi","Fidalgo","A"));
-        professorsList.add(new Professor(2L,"89652682", "Maria", "Gonzalez","B"));
-    }
+    @Autowired
+    private ProfessorsRepository professorsRepository;
 
     public List<Professor> getProfessors() {
-        return professorsList;
+        List<Professor> profesores = new ArrayList<>();
+        professorsRepository.findAll().forEach(profesores::add);
+        return profesores;
     }
 
     public Professor getProfessor(Long id) {
-        return professorsList.stream()
-                .filter(professor -> professor.getId().equals(id)).findFirst().get();
+        return professorsRepository.findById(id).get();
     }
 
     public void addProfessor(Professor professor) {
-        // Si Id es null le asignamos el último + 1 de la lista
-        if (professor.getId() == null) {
-            professor.setId(professorsList.get(professorsList.size() - 1).getId() + 1);
-        }
-        professorsList.add(professor);
+        // Si en Id es null le asignamos el último + 1 de la lista
+        professorsRepository.save(professor);;
     }
 
     public void deleteProfessor(Long id) {
-        professorsList.removeIf(professor -> professor.getId().equals(id));
+
+        professorsRepository.deleteById(id);
     }
 
     @Override
     public String toString() {
+        List<Professor> professorsList = new ArrayList<>();
+        professorsRepository.findAll().forEach(professorsList::add);
         String info="";
         for (int i=0;i<professorsList.size();i++){
             info+=professorsList.get(i).toString();
