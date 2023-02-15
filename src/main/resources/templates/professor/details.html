@@ -66,38 +66,34 @@
 
 
 <div class="container" id="main-container">
-    <h2>Profesores</h2>
-    <p>Los profesores que actualmente figuran en el sistema son los siguientes:</p>
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">DNI</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellidos</th>
-                <th scope="col">Categoría</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="professor : ${professorList}">
-                <td scope="row" th:text="${professor.id}"> 1</td>
-                <td th:text="${professor.dni}"> 71741015</td>
-                <td th:text="${professor.nombre}">Santiago</td>
-                <td th:text="${professor.apellidos}"> Salles</td>
-                <td th:text="${professor.categoria}">C</td>
-                <td><a th:href="${'/professor/edit/' + professor.id}">modificar</a></td>
-                <td><a th:href="${'/professor/delete/' + professor.id}">eliminar</a></td>
-            </tr>
-            </tbody>
-        </table>
+    <h2>Detalles del profesor</h2>
+    <div class="card">
+        <div class="card-header">DNI</div>
+        <div class="card-body">
+            <p class="card-text" th:text="${professor.dni}">DNI</p>
+        </div>
     </div>
-    <div th:if="${#lists.isEmpty(professorList)}"> No profesores </div>
+    <br>
+    <div class="card">
+        <div class="card-header">Nombre</div>
+        <div class="card-body">
+            <p class="card-text" th:text="${professor.nombre}">Nombre</p>
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-header">Apellidos</div>
+        <div class="card-body">
+            <p class="card-text" th:text="${professor.apellidos}">Apellidos</p>
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-header">Categoria</div>
+        <div class="card-body">
+            <p class="card-text" th:text="${professor.categoria}">Categoria</p>
+        </div>
+    </div>
 </div>
 
 

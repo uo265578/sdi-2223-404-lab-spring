@@ -33,17 +33,16 @@ public class ProfessorsController {
 
     // --- editar
     @RequestMapping(value = "/professor/edit/{id}")
-    public String getEdit(@PathVariable Long id) {
-        return "Profesor editado: " + id;
+    public String getEdit(Model model, @PathVariable Long id) {
+        model.addAttribute("professor", professorsService.getProfessor(id));
+        return "professor/edit";
     }
 
     @RequestMapping(value = "/professor/edit/{id}", method = RequestMethod.POST)
     public String setEdit(@ModelAttribute Professor professor, @PathVariable Long id) {
-        String previous = professorsService.getProfessor(id).toString();
-        professor.setId(id);
-        professorsService.addProfessor(professor);
-
-        return "Profesor editado: " + previous.toString() + " a: " + professor.toString();
+         professor.setId(id);
+         professorsService.addProfessor(professor);
+        return "redirect:/professor/details/"+id;
     }
 
 
@@ -51,8 +50,9 @@ public class ProfessorsController {
     // --- ver detalle
 
     @RequestMapping("/professor/details/{id}")
-    public String getDetail(@PathVariable Long id) {
-        return professorsService.getProfessor(id).toString();
+    public String getDetail(Model model, @PathVariable Long id) {
+        model.addAttribute("professor", professorsService.getProfessor(id));
+        return "professor/details";
     }
 
 
