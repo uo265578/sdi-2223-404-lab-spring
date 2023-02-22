@@ -55,6 +55,7 @@ public class UsersController {
     public String setEdit(@ModelAttribute User user, @PathVariable Long id){
         User originalUser = usersService.getUser(id);
         // modificar solo dni, nombre y apellido
+        //mejor que vaya en el servicio
         originalUser.setDni(user.getDni());
         originalUser.setName(user.getName());
         originalUser.setLastName(user.getLastName());
